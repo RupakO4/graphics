@@ -43,7 +43,7 @@ glm::vec3 lightPos(15.0f, 20.0f, 1.0f);
 //glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 //glm::vec3 lightPos(-1.2f, 1.0f, 2.0f);
 
-//pangeni ko rotate,scale and translation prespective
+//prespective
 glm::mat4 myperspective(float angleInRadians, float aspectRatio, float zNear, float zFar)
 {
     float matarray[16] = { 0 }; //4*4 matrix array
@@ -66,6 +66,7 @@ glm::mat4 myperspective(float angleInRadians, float aspectRatio, float zNear, fl
     //std::cout << glm::to_string(projection);
     return projection;
 }
+//scale
 glm::mat4 mat_scale(glm::mat4 mat1, glm::vec3 vec1)
 {
     glm::mat4 scaledMatrix;
@@ -81,6 +82,7 @@ glm::mat4 mat_scale(glm::mat4 mat1, glm::vec3 vec1)
     return scaledMatrix;
 }
 
+//rotate
 glm::mat4 mat_rotate(glm::mat4 mat1, float angle, glm::vec3 vec1)
 {
     const float theta = angle; //glm::radians(angle) if input is in degree
@@ -118,7 +120,7 @@ glm::mat4 mat_rotate(glm::mat4 mat1, float angle, glm::vec3 vec1)
 
 }
 
-
+//translate
 glm::mat4 mat_Translate(glm::mat4 mat1, glm::vec3 vec1)
 {
     glm::mat4 Result_Mat;           // cant do mat[0] + vec[0], mat[1] + vec[1], mat[2] + vec[2]
