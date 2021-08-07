@@ -39,7 +39,17 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 //lighting
-glm::vec3 lightPos(15.0f, 20.0f, 1.0f);
+glm::vec3 positions[] = {
+    glm::vec3(15.0f, 80.0f, 1.0f),
+    glm::vec3(10.0f, 10.0f, 1.0f),
+    glm::vec3(15.0f, 10.0f, 1.0f),
+    glm::vec3(30.0f, 10.0f, 1.0f),
+    glm::vec3(25.0f, 10.0f, 1.0f),
+    glm::vec3(35.0f, 10.0f, 1.0f),
+    glm::vec3(40.0f, 10.0f, 1.0f)
+};
+
+
 //glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 //glm::vec3 lightPos(-1.2f, 1.0f, 2.0f);
 
@@ -134,6 +144,33 @@ glm::mat4 mat_Translate(glm::mat4 mat1, glm::vec3 vec1)
     //std::cout << glm::to_string(Result_Mat);
 
     return Result_Mat;
+}
+
+void LightFunction(Shader& lightingShader)
+{
+    lightingShader.use();
+    lightingShader.setInt("material.diffuse", 0);
+    lightingShader.setInt("material.specular", 1);
+}
+
+void SetIntensity(Shader& lightingShader, glm::vec3 lightPos)
+{
+    lightingShader.use();
+    lightingShader.setVec3("light.position", lightPos);
+
+    lightingShader.setVec3("viewPos", camera.Position);
+
+    // light properties
+    lightingShader.setVec3("light.ambient", 0.4f, 0.4f, 0.4f);
+    lightingShader.setVec3("light.diffuse", 0.8f, 0.8f, 0.8f);
+    lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+    lightingShader.setFloat("light.constant", 0.01f);
+    lightingShader.setFloat("light.linear", 0.002f);
+    lightingShader.setFloat("light.quadratic", 0.0013f);
+
+    // material properties
+    lightingShader.setFloat("material.shininess", 32.0f);
+
 }
 
 int main()
@@ -388,6 +425,7 @@ int main()
     Model bigStupaModel("objects/stupa/stupa.obj");
 
 
+
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // 
@@ -395,9 +433,28 @@ int main()
      // shader configuration
     // --------------------
     Shader lightingShader("lightVS.txt", "lightFS.txt");
-    lightingShader.use();
-    lightingShader.setInt("material.diffuse", 0);
-    lightingShader.setInt("material.specular", 1);
+    //lightingShader.use();
+    //lightingShader.setInt("material.diffuse", 0);
+    //lightingShader.setInt("material.specular", 1);
+    LightFunction(lightingShader);
+
+    Shader lightingShader1("lightVS.txt", "lightFS.txt");
+    LightFunction(lightingShader1);
+
+    Shader lightingShader2("lightVS.txt", "lightFS.txt");
+    LightFunction(lightingShader2);
+
+    Shader lightingShader3("lightVS.txt", "lightFS.txt");
+    LightFunction(lightingShader3);
+
+    Shader lightingShader4("lightVS.txt", "lightFS.txt");
+    LightFunction(lightingShader4);
+
+    Shader lightingShader5("lightVS.txt", "lightFS.txt");
+    LightFunction(lightingShader5);
+
+    Shader lightingShader6("lightVS.txt", "lightFS.txt");
+    LightFunction(lightingShader6);
 
     // render loop
     // -----------
@@ -419,8 +476,9 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // be sure to activate shader when setting uniforms/drawing objects
-        lightingShader.use();
+       /* lightingShader.use();
         lightingShader.setVec3("light.position", lightPos);
+
         lightingShader.setVec3("viewPos", camera.Position);
 
         // light properties
@@ -432,7 +490,13 @@ int main()
         lightingShader.setFloat("light.quadratic", 0.0013f);
 
         // material properties
-        lightingShader.setFloat("material.shininess", 32.0f);
+        lightingShader.setFloat("material.shininess", 32.0f); */
+        for (int i = 0; i <= 6; i++)
+        {
+            SetIntensity(lightingShader, positions[i]);
+        }
+
+
 
         // view/projection transformations
         //glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -442,6 +506,23 @@ int main()
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", view);
 
+        lightingShader1.setMat4("projection", projection);
+        lightingShader1.setMat4("view", view);
+
+        lightingShader2.setMat4("projection", projection);
+        lightingShader2.setMat4("view", view);
+
+        lightingShader3.setMat4("projection", projection);
+        lightingShader3.setMat4("view", view);
+
+        lightingShader4.setMat4("projection", projection);
+        lightingShader4.setMat4("view", view);
+
+        lightingShader5.setMat4("projection", projection);
+        lightingShader5.setMat4("view", view);
+
+        lightingShader6.setMat4("projection", projection);
+        lightingShader6.setMat4("view", view);
         // render the loaded model
 
         //big baudhanath stupa
@@ -451,10 +532,20 @@ int main()
         model = mat_Translate(model, glm::vec3(0.0f, -1.4f, 0.0f)); // translate it down so it's at the center of the scene
 
         //model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));  // it's a bit too big for our scene, so scale it down
-        model = mat_scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        model = mat_scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
         //model = glm::rotate(model, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
         model = mat_rotate(model, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
         lightingShader.setMat4("model", model);
+
+        lightingShader1.setMat4("model", model);
+        lightingShader2.setMat4("model", model);
+        lightingShader3.setMat4("model", model);
+        lightingShader4.setMat4("model", model);
+        lightingShader5.setMat4("model", model);
+        lightingShader6.setMat4("model", model);
+
+
+
         bigStupaModel.Draw(lightingShader);
 
 
@@ -475,18 +566,21 @@ int main()
         lightCubeShader.use();
         lightCubeShader.setMat4("projection", projection);
         lightCubeShader.setMat4("view", view);
-        model = glm::mat4(1.0);
-        //model = glm::translate(model, lightPos);
-        model = mat_Translate(model, lightPos);
+        
+        for (int i = 0; i <= 6; i++)
+        {
+            model = glm::mat4(1.0);
+            //model = glm::translate(model, lightPos);
+            model = mat_Translate(model, positions[i]);
 
-        //model = glm::scale(model, glm::vec3(0.2f));//a smaller cube
-        model = mat_scale(model, glm::vec3(0.2f)); //a smaller cube
+            //model = glm::scale(model, glm::vec3(0.2f));//a smaller cube
+            model = mat_scale(model, glm::vec3(0.2f)); //a smaller cube
 
-        lightCubeShader.setMat4("model", model);
+            lightCubeShader.setMat4("model", model);
 
-        glBindVertexArray(lightCubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
+            glBindVertexArray(lightCubeVAO);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
         // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         skyboxShader.use();
