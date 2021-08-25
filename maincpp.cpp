@@ -47,7 +47,7 @@ float lastFrame = 0.0f;
 //    
 //};
 //position of dir light
-glm::vec3 dirlightpos(5.0f, 40.0f, 4.0f);
+glm::vec3 dirlightpos(-40.0f, 40.0f, 40.0f);
 
 
 // positions of the point lights
@@ -60,34 +60,58 @@ glm::vec3 pointLightPositions[] = {
     glm::vec3(36.2f,-2.0f, -1.0f),
     glm::vec3(3.6f, 23.0f, -1.05f) //top[6]
 
-
 };
 
 
 
 //prespective
-glm::mat4 myperspective(float angleInRadians, float aspectRatio, float zNear, float zFar)
+//glm::mat4 myperspective(float angleInRadians, float aspectRatio, float zNear, float zFar)
+//{
+//    float matarray[16] = { 0 }; //4*4 matrix array
+//    matarray[0] = 1 / (aspectRatio * tan(angleInRadians / 2.0f));
+//    matarray[5] = 1 / tan(angleInRadians / 2.0f);
+//    matarray[11] = 1.0f;
+//
+//    if (GLM_DEPTH_CLIP_SPACE == GLM_DEPTH_ZERO_TO_ONE)
+//    {
+//        matarray[10] = -zFar / (zFar - zNear);
+//        matarray[14] = -(zFar * zNear) / (zFar - zNear);
+//    }
+//    else
+//    {
+//        matarray[10] = -(zFar + zNear) / (zFar - zNear);
+//        matarray[14] = -(2.0f * zFar * zNear) / (zFar - zNear);
+//    }
+//
+//    glm::mat4 projection = glm::make_mat4(matarray);
+//    //std::cout << glm::to_string(projection);
+//    return projection;
+//}
+glm::mat4 myperspective(float fov, float aspectRatio, float zNear, float zFar)
 {
-    float matarray[16] = { 0 }; //4*4 matrix array
-    matarray[0] = 1 / (aspectRatio * tan(angleInRadians / 2.0f));
-    matarray[5] = 1 / tan(angleInRadians / 2.0f);
-    matarray[11] = 1.0f;
+    glm::mat4 projection;
 
-    if (GLM_DEPTH_CLIP_SPACE == GLM_DEPTH_ZERO_TO_ONE)
-    {
-        matarray[10] = -zFar / (zFar - zNear);
-        matarray[14] = -(zFar * zNear) / (zFar - zNear);
+    float scale = 1.0 / tan(fov / 2);
+    projection[0][0] = scale / aspectRatio;
+    projection[1][1] = scale; // scale the y coordinates
+
+    projection[2][3] = -1;
+    //projection[2][2] = -(zFar + zNear) / (zFar - zNear);   // remap z to [0,1] 
+    //projection[3][2] = (2*zFar*zNear) / (zNear - zFar);
+
+    if (GLM_DEPTH_CLIP_SPACE == GLM_DEPTH_ZERO_TO_ONE) {
+        projection[2][2] = zFar / (zNear - zFar);
+        projection[3][2] = -(zFar * zNear) / (zFar - zNear);
     }
-    else
-    {
-        matarray[10] = -(zFar + zNear) / (zFar - zNear);
-        matarray[14] = -(2.0f * zFar * zNear) / (zFar - zNear);
+    else {
+        projection[2][2] = -(zFar + zNear) / (zFar - zNear);
+        projection[3][2] = -(2 * zFar * zNear) / (zFar - zNear);
     }
 
-    glm::mat4 projection = glm::make_mat4(matarray);
-    //std::cout << glm::to_string(projection);
     return projection;
 }
+
+
 //scale
 glm::mat4 mat_scale(glm::mat4 mat1, glm::vec3 vec1)
 {
@@ -299,6 +323,17 @@ int main()
         "skybox/front.jpg",
         "skybox/back.jpg"
     };
+
+    //vector<std::string> faces
+    //{
+    //    "skybox/negx.jpg",
+    //    "skybox/posx.jpg",
+    //    "skybox/posy.jpg",
+    //    "skybox/negy.jpg",
+    //    "skybox/negz.jpg",
+    //    "skybox/posz.jpg"
+    //};
+
     /*vector<std::string> night_faces
     {
         "skybox/night/right.jpg",
@@ -460,7 +495,7 @@ int main()
     lightingShader.setInt("material.specular", 1);
    // LightFunction(lightingShader);
 
-    bool isNightMode = 0;
+    bool isNightMode = 1;
 
     // render loop
     // -----------
@@ -487,15 +522,15 @@ int main()
         // material properties
         lightingShader.use();
         lightingShader.setVec3("viewPos", camera.Position);
-        lightingShader.setFloat("material.shininess", 32.0f);
+        lightingShader.setFloat("material.shininess", 30.0f);
         lightingShader.setInt("dir", isNightMode);
 
         // directional light
        
-        lightingShader.setVec3("dirLight.direction", 0.8f, 0.8f, 0.8f);
-        lightingShader.setVec3("dirLight.ambient", 0.8f, 0.8f, 0.8f);
+        //lightingShader.setVec3("dirLight.direction", 0.8f, 0.8f, 0.8f);
+        /*lightingShader.setVec3("dirLight.ambient", 0.8f, 0.8f, 0.8f);
         lightingShader.setVec3("dirLight.diffuse", 0.6f, 0.6f, 0.6f);
-        lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+        lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);*/
 
 
         if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
@@ -512,9 +547,11 @@ int main()
             
                 isNightMode = 0;
                 lightingShader.setVec3("dirLight.direction", 0.8f, 0.8f, 0.8f);
-                lightingShader.setVec3("dirLight.ambient", 0.8f, 0.8f, 0.8f);
-                lightingShader.setVec3("dirLight.diffuse", 0.6f, 0.6f, 0.6f);
+                //lightingShader.setVec3("dirLight.position", 50.0f, 40.0f, 40.0f);
+                lightingShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
+                lightingShader.setVec3("dirLight.diffuse", 0.5f, 0.5f, 0.5f);
                 lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+  
 
             lightingShader.setInt("dir", isNightMode);
         }
@@ -582,7 +619,7 @@ int main()
 
         // view/projection transformations
         //glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 projection = myperspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
         glm::mat4 view = camera.GetViewMatrix();
         lightingShader.setMat4("projection", projection);
@@ -633,13 +670,13 @@ int main()
         glActiveTexture(GL_TEXTURE0);
 
 
-        //glBindVertexArray(lightCubeVAO);
-        //model = glm::mat4(1.0f);
-        //model = mat_Translate(model, dirlightpos);
-        //model = mat_scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-        //lightCubeShader.setMat4("model", model);
+        glBindVertexArray(lightCubeVAO);
+        model = glm::mat4(1.0f);
+        model = mat_Translate(model, dirlightpos);
+        model = mat_scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+        lightCubeShader.setMat4("model", model);
        
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         // we now draw as many light bulbs as we have point lights.

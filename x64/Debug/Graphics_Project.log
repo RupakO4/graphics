@@ -1,27 +1,28 @@
 ﻿  maincpp.cpp
-D:\5th sem\graphics\graphics-project-lighting\Graphics\Shader.h(56,40): warning C4101: 'e': unreferenced local variable
-D:\5th sem\graphics\graphics-project-lighting\Graphics\Mesh.h(84,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(471,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(531,62): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(532,66): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(539,62): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(540,66): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(547,62): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(548,66): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(555,62): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(556,66): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(563,62): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(564,66): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(571,62): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(572,66): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(579,63): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(580,67): warning C4305: 'argument': truncation from 'double' to 'float'
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(722,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(723,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(727,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(728,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(730,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(731,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\5th sem\graphics\graphics-project-lighting\Graphics\maincpp.cpp(740,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\Shader.h(56,40): warning C4101: 'e': unreferenced local variable
+D:\5th sem\graphics\graphicsproject\graphics\Mesh.h(84,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(94,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(506,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(568,62): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(569,66): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(576,62): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(577,66): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(584,62): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(585,66): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(592,62): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(593,66): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(600,62): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(601,66): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(608,62): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(609,66): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(616,63): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(617,67): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(759,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(760,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(764,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(765,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(767,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(768,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\5th sem\graphics\graphicsproject\graphics\maincpp.cpp(777,31): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  Graphics_Project.vcxproj -> D:\5th sem\graphics\graphics-project-lighting\Graphics\x64\Debug\Graphics_Project.exe
+  Graphics_Project.vcxproj -> D:\5th sem\graphics\graphicsproject\graphics\x64\Debug\Graphics_Project.exe
