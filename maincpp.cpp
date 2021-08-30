@@ -64,29 +64,7 @@ glm::vec3 pointLightPositions[] = {
 
 
 
-//prespective
-//glm::mat4 myperspective(float angleInRadians, float aspectRatio, float zNear, float zFar)
-//{
-//    float matarray[16] = { 0 }; //4*4 matrix array
-//    matarray[0] = 1 / (aspectRatio * tan(angleInRadians / 2.0f));
-//    matarray[5] = 1 / tan(angleInRadians / 2.0f);
-//    matarray[11] = 1.0f;
-//
-//    if (GLM_DEPTH_CLIP_SPACE == GLM_DEPTH_ZERO_TO_ONE)
-//    {
-//        matarray[10] = -zFar / (zFar - zNear);
-//        matarray[14] = -(zFar * zNear) / (zFar - zNear);
-//    }
-//    else
-//    {
-//        matarray[10] = -(zFar + zNear) / (zFar - zNear);
-//        matarray[14] = -(2.0f * zFar * zNear) / (zFar - zNear);
-//    }
-//
-//    glm::mat4 projection = glm::make_mat4(matarray);
-//    //std::cout << glm::to_string(projection);
-//    return projection;
-//}
+//perspective
 glm::mat4 myperspective(float fov, float aspectRatio, float zNear, float zFar)
 {
     glm::mat4 projection;
@@ -182,29 +160,6 @@ glm::mat4 mat_Translate(glm::mat4 mat1, glm::vec3 vec1)
     return Result_Mat;
 }
 
-//void LightFunction(Shader& lightingShader)
-//{
-//    lightingShader.use();
-//    lightingShader.setInt("material.diffuse", 0);
-//    lightingShader.setInt("material.specular", 1);
-//}
-
-//void SetIntensity(Shader& lightingShader, glm::vec3 lightPos, glm::vec3 lightambient)
-//{
-//    
-//
-//    // light properties
-//    lightingShader.setVec3("light.position", lightPos);
-//    lightingShader.setVec3("light.ambient", lightambient);
-//    lightingShader.setVec3("light.diffuse", 0.8f, 0.8f, 0.8f);
-//    lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-//    lightingShader.setFloat("light.constant", -0.01f);
-//    lightingShader.setFloat("light.linear", -0.002f);
-//    lightingShader.setFloat("light.quadratic", 0.0013f);
-//
-//    
-//
-//}
 
 int main()
 {
@@ -334,24 +289,11 @@ int main()
     //    "skybox/posz.jpg"
     //};
 
-    /*vector<std::string> night_faces
-    {
-        "skybox/night/right.jpg",
-        "skybox/night/left.jpg",
-        "skybox/night/top.jpg",
-        "skybox/night/bottom.jpg",
-        "skybox/night/front.jpg",
-        "skybox/night/back.jpg"
-    };*/
+
     unsigned int cubemapTexture = loadCubemap(faces);
-    //unsigned int night_cubemapTexture = loadCubemap(night_faces);
 
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
-
-  
-
-
 
     //ground plane
 
@@ -401,7 +343,7 @@ int main()
     // load image, create texture and generate mipmaps
     int width, height, nrChannels;
     // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-    unsigned char* data = stbi_load("textures/bottom.jpg", &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load("textures/brick.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -414,9 +356,8 @@ int main()
     stbi_image_free(data);
 
     Shader groundShader("groundVS.txt", "groundFS.txt");
-    //glm::mat4 groundModelMatrix = glm::translate(glm::mat4(1.f), glm::vec3(10.f, -1.5f, 0.f));
     glm::mat4 groundModelMatrix = mat_Translate(glm::mat4(1.f), glm::vec3(1.f, -1.5f, 0.f));
-    groundModelMatrix = mat_scale(groundModelMatrix, glm::vec3(10.f));
+    groundModelMatrix = mat_scale(groundModelMatrix, glm::vec3(100.f));
     groundShader.use();
     groundShader.setMat4("model", groundModelMatrix);
     groundShader.setInt("g_texture", 0);
@@ -495,7 +436,7 @@ int main()
     lightingShader.setInt("material.specular", 1);
    // LightFunction(lightingShader);
 
-    bool isNightMode = 1;
+    bool isNightMode = 0;
 
     // render loop
     // -----------
@@ -527,32 +468,23 @@ int main()
 
         // directional light
        
-        //lightingShader.setVec3("dirLight.direction", 0.8f, 0.8f, 0.8f);
-        /*lightingShader.setVec3("dirLight.ambient", 0.8f, 0.8f, 0.8f);
+        lightingShader.setVec3("dirLight.direction", 0.8f, 0.8f, 0.8f);
+        lightingShader.setVec3("dirLight.ambient", 0.8f, 0.8f, 0.8f);
         lightingShader.setVec3("dirLight.diffuse", 0.6f, 0.6f, 0.6f);
-        lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);*/
+        lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
 
         if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
             
                 isNightMode = 1;
-                lightingShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
-                lightingShader.setVec3("dirLight.diffuse", 0.0f, 0.0f, 0.0f);
-                lightingShader.setVec3("dirLight.specular", 0.0f, 0.0f, 0.0f);
-           
+       
             lightingShader.setInt("dir", isNightMode);
         }
 
         if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) {
             
                 isNightMode = 0;
-                lightingShader.setVec3("dirLight.direction", 0.8f, 0.8f, 0.8f);
-                //lightingShader.setVec3("dirLight.position", 50.0f, 40.0f, 40.0f);
-                lightingShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
-                lightingShader.setVec3("dirLight.diffuse", 0.5f, 0.5f, 0.5f);
-                lightingShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-  
-
+ 
             lightingShader.setInt("dir", isNightMode);
         }
 
@@ -618,7 +550,6 @@ int main()
 
 
         // view/projection transformations
-        //glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 projection = myperspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
         glm::mat4 view = camera.GetViewMatrix();
@@ -628,21 +559,12 @@ int main()
        
         // render the loaded model
 
-
         glm::mat4 model = glm::mat4(1.0f);
-        ////model = glm::translate(model, glm::vec3(0.0f, -1.4f, 0.0f)); // translate it down so it's at the center of the scene
+  
         model = mat_Translate(model, glm::vec3(0.0f, -1.4f, 0.0f)); // translate it down so it's at the center of the scene
-
-        ////model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));  // it's a bit too big for our scene, so scale it down
-       model = mat_scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        ////model = glm::rotate(model, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
+        model = mat_scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
         model = mat_rotate(model, glm::radians(-135.0f), glm::vec3(0.0, 1.0, 0.0));
         lightingShader.setMat4("model", model);
-
-        
-        
-
-
 
         stupamodel.Draw(lightingShader);
 
@@ -702,12 +624,6 @@ int main()
         glBindVertexArray(skyboxVAO);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-        /*if (isNightMode == 0) {
-            glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
-        }
-        else {
-            glBindTexture(GL_TEXTURE_CUBE_MAP, night_cubemapTexture);
-        }*/
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
         glDepthFunc(GL_LESS); // set depth function back to default
